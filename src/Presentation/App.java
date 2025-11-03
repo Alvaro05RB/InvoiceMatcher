@@ -1,126 +1,140 @@
 package Presentation;
 
-import Logic.BatchMatcher;
-import Logic.InvoiceParser;
-import Logic.InvoiceParserA;
-import Logic.InvoiceParserB;
+import Logic.*;
 import Model.Invoice;
 import Model.InvoiceBatch;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class App {
-    private JFrame frame;
-    private JPanel mainPanel;
-    private JButton loadA,loadB,compareButton;
-    private File fileA,fileB;
+    private final JFrame frame;
+    private File fileA, fileB;
     private JTextArea resultAinB, resultBinA;
-    private JLabel fileALabel, fileBLabel;
+    private final JLabel fileALabel;
+    private final JLabel fileBLabel;
+
+    // Formatter for clean currency
+    private static final NumberFormat EUR = NumberFormat.getInstance(Locale.GERMANY);
+    static { EUR.setMinimumFractionDigits(2); EUR.setMaximumFractionDigits(2); }
 
     public App() {
         frame = new JFrame("Invoice Matcher");
-        mainPanel = new JPanel(new BorderLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1400, 800);
 
-        // Top Buttons
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        // === TOP PANEL ===
         JPanel topPanel = new JPanel();
-        loadA = new JButton("Load File A");
-        loadB = new JButton("Load File B");
-        compareButton = new JButton("Compare");
-        fileALabel = new JLabel("No file selected");
-        fileBLabel = new JLabel("No file selected");
-        topPanel.add(loadA);
-        topPanel.add(fileALabel);
-        topPanel.add(loadB);
-        topPanel.add(fileBLabel);
+        JButton loadA = new JButton("Load File A");
+        JButton loadB = new JButton("Load File B");
+        JButton compareButton = new JButton("Compare");
+        fileALabel = new JLabel("No file A");
+        fileBLabel = new JLabel("No file B");
+
+        topPanel.add(loadA); topPanel.add(fileALabel);
+        topPanel.add(loadB); topPanel.add(fileBLabel);
         topPanel.add(compareButton);
 
-        loadA.addActionListener(e -> {
-            fileA = loadFile(frame);
-            if (fileA != null) {
-                fileALabel.setText(fileA.getName());
-            }
-        });
-
-        loadB.addActionListener(e -> {
-            fileB = loadFile(frame);
-            if (fileB!= null) {
-                fileBLabel.setText(fileB.getName());
-            }
-        });
-
-        compareButton.addActionListener(e -> {
-            if (fileA != null && fileB != null) {
-                try {
-                    InvoiceParser parserA = new InvoiceParserA();
-                    InvoiceParser parserB = new InvoiceParserB();
-
-                    InvoiceBatch batchA = parserA.read(fileA);
-                    InvoiceBatch batchB = parserB.read(fileB);
-
-                    // Bidirectional match using BatchMatcher
-                    InvoiceBatch AnotInB = BatchMatcher.match(batchA, batchB);
-                    InvoiceBatch BnotInA = BatchMatcher.match(batchB, batchA);
-
-                    // Display results in JTextAreas
-                    resultAinB.setText("");
-                    for (Invoice inv : AnotInB.getInvoices().values()) {
-                        resultAinB.append(inv.ID() + " | " + inv.price() + "\n");
-                    }
-
-                    resultBinA.setText("");
-                    for (Invoice inv : BnotInA.getInvoices().values()) {
-                        resultBinA.append(inv.ID() + " | " + inv.price() + "\n");
-                    }
-
-                } catch (Exception ex) {
-                    // Display error
-                    JOptionPane.showMessageDialog(frame,
-                            "Error parsing files:\n" + ex.getMessage(),
-                            "Parsing Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(frame, "Please load both files first.");
-            }
-        });
-
-        // Results UI
-        resultAinB = new JTextArea(10, 30);
+        // === RESULTS PANELS ===
+        resultAinB = new JTextArea(20, 40);
+        resultAinB.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        resultAinB.setEditable(false);
         resultAinB.setBorder(BorderFactory.createTitledBorder("Invoices in A not in B"));
 
-        resultBinA = new JTextArea(10, 30);
+        resultBinA = new JTextArea(20, 40);
+        resultBinA.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        resultBinA.setEditable(false);
         resultBinA.setBorder(BorderFactory.createTitledBorder("Invoices in B not in A"));
 
         JPanel resultsPanel = new JPanel(new GridLayout(1, 2, 10, 0));
-        resultsPanel.add(new JScrollPane(resultAinB),BorderLayout.EAST);
-        resultsPanel.add(new JScrollPane(resultBinA),BorderLayout.WEST);
+        resultsPanel.add(new JScrollPane(resultAinB));
+        resultsPanel.add(new JScrollPane(resultBinA));
 
-        // Merging both panels
-        mainPanel.add(topPanel,BorderLayout.NORTH);
-        mainPanel.add(resultsPanel,BorderLayout.CENTER);
+        // === LAYOUT ===
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(resultsPanel, BorderLayout.CENTER);
         frame.add(mainPanel);
 
-        //Window settings
-        frame.setSize(1400, 800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // === ACTIONS ===
+        loadA.addActionListener(e -> fileA = loadFile("Select File A"));
+        loadB.addActionListener(e -> fileB = loadFile("Select File B"));
+
+        compareButton.addActionListener(e -> compareFiles());
+
         frame.setVisible(true);
     }
-    private File loadFile(JFrame frame) {
-        String userHome = System.getProperty("user.home");
-        File downloads = new File(userHome, "Downloads");
-        JFileChooser fileChooser = new JFileChooser(downloads);
-        int result = fileChooser.showOpenDialog(frame);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile();
+
+    private File loadFile(String title) {
+        JFileChooser fc = new JFileChooser(System.getProperty("user.home") + "/Downloads");
+        fc.setDialogTitle(title);
+        if (fc.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+            File f = fc.getSelectedFile();
+            if (title.contains("A")) fileALabel.setText(f.getName());
+            else fileBLabel.setText(f.getName());
+            return f;
         }
         return null;
     }
 
-    public static void main(String[] args) {
-        new App();
+    private void compareFiles() {
+        if (fileA == null || fileB == null) {
+            JOptionPane.showMessageDialog(frame, "Load both files first!");
+            return;
+        }
+
+        try {
+            InvoiceParser parserA = new InvoiceParserA();
+            InvoiceParser parserB = new InvoiceParserB();
+
+            InvoiceBatch batchA = parserA.read(fileA);
+            InvoiceBatch batchB = parserB.read(fileB);
+
+            InvoiceBatch AnotInB = BatchMatcher.match(batchA, batchB);
+            InvoiceBatch BnotInA = BatchMatcher.match(batchB, batchA);
+
+            // === DISPLAY A not in B ===
+            resultAinB.setText("");
+            resultAinB.append(String.format("%-20s %-12s %-12s\n", "ID", "PRICE", "COMMISSION"));
+            resultAinB.append("-".repeat(50) + "\n");
+            for (Invoice inv : AnotInB.getInvoices().values()) {
+                resultAinB.append(String.format("%-20s €%-11s €%-11s\n",
+                        inv.ID(),
+                        EUR.format(inv.price()),
+                        EUR.format(inv.commission())));
+            }
+
+            // === DISPLAY B not in A ===
+            resultBinA.setText("");
+            resultBinA.append(String.format("%-20s %-12s %-12s\n", "ID", "PRICE", "COMMISSION"));
+            resultBinA.append("-".repeat(50) + "\n");
+            for (Invoice inv : BnotInA.getInvoices().values()) {
+                resultBinA.append(String.format("%-20s €%-11s €%-11s\n",
+                        inv.ID(),
+                        EUR.format(inv.price()),
+                        EUR.format(inv.commission())));
+            }
+
+            // Optional: Show totals
+            JOptionPane.showMessageDialog(frame,
+                    "Comparison Complete!\n" +
+                            "A → B: " + AnotInB.size() + " missing\n" +
+                            "B → A: " + BnotInA.size() + " missing",
+                    "Done", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(frame,
+                    "Error: " + ex.getMessage(),
+                    "Parse Failed", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
     }
 
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(App::new);
+    }
 }

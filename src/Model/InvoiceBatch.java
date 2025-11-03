@@ -17,4 +17,8 @@ public class InvoiceBatch {
     public HashMap<String, Invoice> getInvoices() {
         return invoices;
     }
+
+    public int size() {
+        return invoices.size();
+    }
 }

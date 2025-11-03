@@ -15,7 +15,6 @@ import java.util.Locale;
 
 public class InvoiceParserB implements InvoiceParser {
 
-    // German locale: handles 1.607,26 → 1607.26
     private static final NumberFormat ES_FORMAT = NumberFormat.getInstance(Locale.GERMANY);
 
     @Override
@@ -44,11 +43,9 @@ public class InvoiceParserB implements InvoiceParser {
                     .build();
 
             String[] columns;
-            int rowNum = 1;
             int totalRows = 0;
 
             while ((columns = reader.readNext()) != null) {
-                rowNum++;
                 totalRows++;
 
                 if (columns.length < 14) continue;

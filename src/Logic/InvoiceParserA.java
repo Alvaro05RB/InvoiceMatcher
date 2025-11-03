@@ -40,7 +40,7 @@ public class InvoiceParserA implements InvoiceParser{
             CSVReader reader = new CSVReaderBuilder(br)
                     .withCSVParser(parser)
                     .withSkipLines(2)                // Skip 2 header rows
-                    .withMultilineLimit(10000)       // Allow HUGE multiline cells
+                    .withMultilineLimit(10000)       // Allow huge multiline cells
                     .withKeepCarriageReturn(true)    // Preserve \r\n inside quotes
                     .build();
 
