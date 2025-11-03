@@ -8,10 +8,13 @@ public class InvoiceBatch {
         invoices = new HashMap<>();
     }
 
-    public boolean addInvoice(Invoice invoice){
-        return invoices.putIfAbsent(invoice.ID(), invoice) == null;
+    public void addInvoice(Invoice invoice){
+        invoices.putIfAbsent(invoice.ID(), invoice);
     }
     public Invoice getInvoiceById(String Id){
         return invoices.get(Id);
+    }
+    public HashMap<String, Invoice> getInvoices() {
+        return invoices;
     }
 }

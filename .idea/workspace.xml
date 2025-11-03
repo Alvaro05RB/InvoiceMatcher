@@ -4,20 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0aca56d6-8b10-4e2b-af24-b3466f2239ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Logic/BatchMatcher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Logic/InvoiceParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Logic/InvoiceParserA.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Logic/InvoiceParserB.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Model/Invoice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Model/InvoiceBatch.java" afterDir="false" />
+    <list default="true" id="0aca56d6-8b10-4e2b-af24-b3466f2239ea" name="Changes" comment="Initial commit&#10;Designed project structure and finished Model Layer">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Presentation/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/BatchMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/BatchMatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/InvoiceParserA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/InvoiceParserA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/InvoiceParserB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/InvoiceParserB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Invoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Invoice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/InvoiceBatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/InvoiceBatch.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,11 +30,30 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="e14bb6b8-bca5-4fd7-bac1-1dc7883d686f" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="34yPhyvMmwiWAQoBtCD08wGVAOd" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -48,12 +64,14 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.App.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true"
+    "kotlin-language-version-configured": "true",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -74,6 +92,42 @@
       <option name="presentableId" value="Default" />
       <updated>1762182962062</updated>
     </task>
+    <task id="LOCAL-00001" summary="Initial commit&#10;Designed project structure and finished Model Layer">
+      <option name="closed" value="true" />
+      <created>1762184954938</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1762184954938</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit&#10;Designed project structure and finished Model Layer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit&#10;Designed project structure and finished Model Layer" />
   </component>
 </project>
