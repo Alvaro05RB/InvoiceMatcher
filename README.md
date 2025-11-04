@@ -2,12 +2,12 @@
 
 ## Overview
 Invoice Matcher is a lightweight desktop tool built with Java Swing that compares two batches of invoices in CSV format from different systems.
-It detects discrepancies between both datasets, showing which invoices exist in one file but not the other — simplifying financial reconciliation and commission tracking.
+It detects discrepancies between both datasets, showing which invoices exist in one file but not the other, simplifying financial reconciliation and commission tracking.
 
 ## Features
 - Load CSV files directly from the default Downloads directory.
 - Source-specific parsers for handling different CSV formats.
-- Bidirectional comparison — shows invoices in A not in B, and vice versa.
+- Bidirectional comparison: shows invoices in A not in B, and vice versa.
 - Simple and responsive UI built with Swing.
 - Error handling via popup dialogs for parsing or I/O issues.
 - Clear visualization of unmatched invoices in two scrollable panels.
